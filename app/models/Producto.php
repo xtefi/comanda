@@ -1,6 +1,6 @@
 <?php
 
-class Product
+class Producto
 {
     public $id;
     public $kind;  // TRAGOS Y VINOS - CERVEZA - PLATOS - POSTRES
