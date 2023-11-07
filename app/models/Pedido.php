@@ -4,13 +4,13 @@ class Pedido{
     public $id;    // 5 CARACTERES
     public $estado; // PENDIENTES - EN PREPARACION - LISTO PARA SERVIR - CANCELADO
     public $idMesa;
-    public $idProductos=array();
+    public $idProducto;
     public $tiempo;
 
     public function crearPedido()
     {
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
-        $consulta = $objAccesoDatos->prepararConsulta("INSERT INTO pedidos (estado, idMesa, idProductos, tiempo) VALUES ('$this->estado', '$this->idMesa', '$this->idProductos', '$this->tiempo'");
+        $consulta = $objAccesoDatos->prepararConsulta("INSERT INTO pedidos (estado, idMesa, idProductos, tiempo) VALUES ('$this->estado', '$this->idMesa', '$this->idProductos', '$this->tiempo')");
         $consulta->execute();
 
         return $objAccesoDatos->obtenerUltimoId();

@@ -12,13 +12,13 @@ class PedidoController extends Pedido implements IApiUsable
         $idProductos = $param['idProductos'];
         $tiempo = $param['tiempo'];
 
-        // Creamos el usuario
+        // Creamos el pedido
         $pedido = new Pedido();
         $pedido->estado = $estado;
         $pedido->idMesa = $idMesa;
         $pedido->idProductos = $idProductos;
         $pedido->tiempo = $tiempo;
-        $pedido->crearUsuario();
+        $pedido->crearPedido();
 
         $payload = json_encode(array("mensaje" => "Pedido creado con exito"));
 
