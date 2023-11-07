@@ -44,3 +44,27 @@ VALUES
     ('POSTRES', 'VOLCAN-CHOCOLATE', 18),
     ('POSTRES', 'HELADO-CHOCOLATE', 3)
 
+CREATE TABLE mesas (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `estado` VARCHAR(50),
+    `nombreCliente` VARCHAR(50),
+    `idPedido` int
+);
+
+INSERT INTO mesas (estado, nombreCliente, idPedido)
+VALUES
+    ('ESPERANDO', 'Bartolo', 0),
+    ('COMIENDO', 'Margaret', 1)
+
+CREATE TABLE pedidos (
+    `id` INT(5) AUTO_INCREMENT PRIMARY KEY,
+    `estado` VARCHAR(50),
+    `idMesa` int,
+    `idProductos` int,
+    `tiempo` int
+);
+
+INSERT INTO pedidos (estado, idMesa, idProductos, tiempo)
+VALUES
+    ('PENDIENTE', 0, 5, 20),
+    ('COMIENDO', 1, 3, 0)

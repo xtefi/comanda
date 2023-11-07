@@ -1,5 +1,5 @@
 <?php
-require_once './models/Usuario.php';
+require_once './models/Mesa.php';
 require_once './interfaces/IApiUsable.php';
 
 class MesaController extends Mesa implements IApiUsable
@@ -12,7 +12,7 @@ class MesaController extends Mesa implements IApiUsable
         $idPedido = $param['idPedido'];
 
 
-        // Creamos el usuario
+        // Creamos la mesa
         $mesa = new Mesa();
         $mesa->estado = $estado;
         $mesa->nombreCliente = $nombreCliente;
