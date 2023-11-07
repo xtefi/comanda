@@ -1,24 +1,26 @@
 <?php
-require_once './models/Producto.php';
+require_once './models/Pedido.php';
 require_once './interfaces/IApiUsable.php';
 
-class ProductoController extends Producto implements IApiUsable
+class PedidoController extends Pedido implements IApiUsable
 {
     public function CargarUno($request, $response, $args)
     {
         $param = $request->getParsedBody();
-        $tipo = $param['tipo'];
-        $descripcion = $param['descripcion'];
-        $tiempoPrep = $param['tiempoPrep'];
+        $estado = $param['estado'];
+        $idMesa = $param['idMesa'];
+        $idProductos = $param['idProductos'];
+        $tiempo = $param['tiempo'];
 
         // Creamos el usuario
-        $prd = new Producto();
-        $prd->tipo = $tipo;
-        $prd->descripcion = $descripcion;
-        $prd->tiempoPrep = $tiempoPrep;
-        $prd->crearProducto();
+        $pedido = new Pedido();
+        $pedido->estado = $estado;
+        $pedido->idMesa = $idMesa;
+        $pedido->idProductos = $idProductos;
+        $pedido->tiempo = $tiempo;
+        $pedido->crearUsuario();
 
-        $payload = json_encode(array("mensaje" => "Producto creado con exito"));
+        $payload = json_encode(array("mensaje" => "Pedido creado con exito"));
 
         $response->getBody()->write($payload);
         return $response
@@ -28,9 +30,9 @@ class ProductoController extends Producto implements IApiUsable
     public function TraerUno($request, $response, $args)
     {
         // Buscamos usuario por nombre
-        $prd = $args['tipo'];
-        $producto = Usuario::obtenerUsuario($prd);
-        $payload = json_encode($producto);
+        $pdd = $args['pedido'];
+        $pedido = Pedido::obtenerUsuario($pdd);
+        $payload = json_encode($pedido);
 
         $response->getBody()->write($payload);
         return $response
@@ -39,8 +41,8 @@ class ProductoController extends Producto implements IApiUsable
 
     public function TraerTodos($request, $response, $args)
     {
-        $lista = Producto::obtenerTodos();
-        $payload = json_encode(array("listaProducto" => $lista));
+        $lista = Pedido::obtenerTodos();
+        $payload = json_encode(array("listPedidos" => $lista));
 
         $response->getBody()->write($payload);
         return $response

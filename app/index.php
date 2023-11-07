@@ -17,6 +17,7 @@ require_once './db/AccesoDatos.php';
 
 require_once './controllers/UsuarioController.php';
 require_once './controllers/ProductoController.php';
+require_once './controllers/PedidoController.php';
 
 // Load ENV
 // $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
@@ -43,6 +44,12 @@ $group->get('[/]', \ProductoController::class . ':TraerTodos');
 $group->get('/{producto}', \ProductoController::class . ':TraerUno');
 $group->post('[/]', \ProductoController::class . ':CargarUno');
 });
+
+$app->group('/pedidos', function (RouteCollectorProxy $group) {
+    $group->get('[/]', \PedidoController::class . ':TraerTodos');
+    $group->get('/{pedido}', \PedidoController::class . ':TraerUno');
+    $group->post('[/]', \PedidoController::class . ':CargarUno');
+    });
 
 $app->get('[/]', function (Request $request, Response $response) {    
     $payload = json_encode(array("mensaje" => "Slim Framework 4 PHP"));
