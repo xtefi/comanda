@@ -6,7 +6,7 @@ class Usuario
     public $usuario;
     public $clave;
     public $rol;           // SOCIO - MOZO - CHEFF - REPOSTERO - CERVECERO - SOMMELIER 
-    public $estado;
+    public $estado;        // ACTIVO - DESPEDIDO - LICENCIA 
     public $fechaAlta;
     public $fechaBaja;
 
@@ -54,14 +54,14 @@ class Usuario
         $consulta->execute();
     }
 
-    public static function borrarUsuario($usuario)
+    public static function borrarUsuario($id)
     {
         $objAccesoDato = AccesoDatos::obtenerInstancia();
         $consulta = $objAccesoDato->prepararConsulta("UPDATE usuarios SET fechaBaja = :fechaBaja, estado = :estado WHERE id = :id");
         $fecha = new DateTime(date("d-m-Y"));
-        $consulta->bindValue(':id', $usuario, PDO::PARAM_INT);
-        $consulta->bindValue(':fechaBaja', date_format($fecha, 'Y-m-d H:i:s'));
-        $consulta->bindValue(':estado', "despedido", PDO::PARAM_INT);
+        $consulta->bindValue(':id', $id, PDO::PARAM_INT);
+        $consulta->bindValue(':fechaBaja', date_format($fecha, 'Y-m-d'));
+        $consulta->bindValue(':estado', "DESPEDIDO", PDO::PARAM_INT);
         $consulta->execute();
     }
 }
