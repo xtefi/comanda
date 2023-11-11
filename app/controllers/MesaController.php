@@ -10,6 +10,7 @@ class MesaController extends Mesa implements IApiUsable
         $estado = $param['estado'];
         $nombreCliente = $param['nombreCliente'];
         $idPedido = $param['idPedido'];
+        $idPedido = $param['idUsuario'];
 
 
         // Creamos la mesa
@@ -17,6 +18,7 @@ class MesaController extends Mesa implements IApiUsable
         $mesa->estado = $estado;
         $mesa->nombreCliente = $nombreCliente;
         $mesa->idPedido = $idPedido;
+        $mesa->idUsuario = $idUsuario;
         $mesa->crearMesa();
 
         $payload = json_encode(array("mensaje" => "Mesa creado con exito"));
