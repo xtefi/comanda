@@ -44,9 +44,11 @@ $app->group('/usuarios', function (RouteCollectorProxy $group) {
   });
 
 $app->group('/productos', function (RouteCollectorProxy $group) {
-$group->get('[/]', \ProductoController::class . ':TraerTodos');
-$group->get('/{producto}', \ProductoController::class . ':TraerUno');
-$group->post('[/]', \ProductoController::class . ':CargarUno');
+    $group->get('[/]', \ProductoController::class . ':TraerTodos');
+    $group->get('/{id}', \ProductoController::class . ':TraerUno');
+    $group->post('[/]', \ProductoController::class . ':CargarUno');
+    $group->post('/{id}', \ProductoController::class . ':ModificarUno');
+    $group->delete('/{id}', \ProductoController::class . ':BorrarUno');
 });
 
 $app->group('/pedidos', function (RouteCollectorProxy $group) {
