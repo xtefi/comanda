@@ -2,9 +2,12 @@
 
 class Pedido{
     public $id;    // 5 CARACTERES
-    public $estado; // PENDIENTES - EN PREPARACION - LISTO PARA SERVIR - CANCELADO
     public $idMesa;
     public $idProducto;
+    public $idUsuario;
+    public $horaPedido;
+    public $tiempoPreparacion;
+    public $estado; // PENDIENTES - PREPARACION - LISTO - ENTREGADO - CANCELADO
     public $tiempo;
 
     public function crearPedido()
