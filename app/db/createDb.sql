@@ -14,8 +14,16 @@ CREATE TABLE usuarios (
 
 INSERT INTO usuarios (usuario, clave, rol, estado, fechaAlta, fechaBaja)
 VALUES
-    ('JamesKirk', 'admin1','socio','disponible','2020-10-10',null),
-    ('Spock', 'admin2','socio','disponible','2020-10-10',null);
+    ('JamesKirk', 'admin1','SOCIO','disponible','2020-10-10',null),
+    ('Spock', 'admin2','SOCIO','disponible','2020-10-10',null),
+    ('Uhura', 'admin3','SOCIO','disponible','2020-10-10',null),
+    ('Empedocles', 'mozo1','MOZO','disponible','2020-10-10',null),
+    ('Anaximenes', 'mozo2','MOZO','disponible','2020-10-10',null),
+    ('Heraclito', 'mozo3','MOZO','disponible','2020-10-10',null),
+    ('Caligula', 'sommelier1','SOMMELIER','disponible','2020-10-10',null),
+    ('Betular', 'repostero1','REPOSTERO','disponible','2020-10-10',null),
+    ('MarcoApicio', 'cheff1','CHEFF','disponible','2020-10-10',null),
+    ('Anaximandro', 'cervecero1','CERVECERO','disponible','2020-10-10',null);
 
 --
 -- ESTRUCTURA PARA LA TABLA 'PRODUCTOS'
