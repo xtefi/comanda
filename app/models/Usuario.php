@@ -5,7 +5,7 @@ class Usuario
     public $id;
     public $usuario;
     public $clave;
-    public $rol;
+    public $rol;           // SOCIO - MOZO - CHEFF - REPOSTERO - CERVECERO - SOMMELIER 
     public $estado;
     public $fechaAlta;
     public $fechaBaja;
