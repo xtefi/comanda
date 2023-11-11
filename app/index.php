@@ -39,6 +39,8 @@ $app->group('/usuarios', function (RouteCollectorProxy $group) {
     $group->get('[/]', \UsuarioController::class . ':TraerTodos');
     $group->get('/{usuario}', \UsuarioController::class . ':TraerUno');
     $group->post('[/]', \UsuarioController::class . ':CargarUno');
+    $group->post('/{usuario}', \UsuarioController::class . ':ModificarUno');
+    $group->delete('/{id}', \UsuarioController::class . ':BorrarUno');
   });
 
 $app->group('/productos', function (RouteCollectorProxy $group) {
@@ -53,11 +55,11 @@ $app->group('/pedidos', function (RouteCollectorProxy $group) {
     $group->post('[/]', \PedidoController::class . ':CargarUno');
     });
 
-    $app->group('/mesas', function (RouteCollectorProxy $group) {
-        $group->get('[/]', \MesaController::class . ':TraerTodos');
-        $group->get('/{mesa}', \MesaController::class . ':TraerUno');
-        $group->post('[/]', \MesaController::class . ':CargarUno');
-        });
+$app->group('/mesas', function (RouteCollectorProxy $group) {
+    $group->get('[/]', \MesaController::class . ':TraerTodos');
+    $group->get('/{mesa}', \MesaController::class . ':TraerUno');
+    $group->post('[/]', \MesaController::class . ':CargarUno');
+    });
 
 $app->get('[/]', function (Request $request, Response $response) {    
     $payload = json_encode(array("mensaje" => "Slim Framework 4 PHP"));

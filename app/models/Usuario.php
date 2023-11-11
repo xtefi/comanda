@@ -41,23 +41,27 @@ class Usuario
         return $consulta->fetchObject('Usuario');
     }
 
-    public static function modificarUsuario()
+    public static function modificarUsuario($usuario, $clave, $rol, $estado, $id)
     {
         $objAccesoDato = AccesoDatos::obtenerInstancia();
-        $consulta = $objAccesoDato->prepararConsulta("UPDATE usuarios SET usuario = :usuario, clave = :clave WHERE id = :id");
-        $consulta->bindValue(':usuario', $this->usuario, PDO::PARAM_STR);
-        $consulta->bindValue(':clave', $this->clave, PDO::PARAM_STR);
-        $consulta->bindValue(':id', $this->id, PDO::PARAM_INT);
+        $query="UPDATE usuarios SET usuario = ?, clave = ?, rol = ?, estado = ? WHERE id = ?";
+        $consulta = $objAccesoDato->prepararConsulta($query);
+        $consulta->bindParam(1, $usuario);
+        $consulta->bindParam(2, $clave);
+        $consulta->bindParam(3, $rol);
+        $consulta->bindParam(4, $estado);
+        $consulta->bindParam(5, $id);
         $consulta->execute();
     }
 
     public static function borrarUsuario($usuario)
     {
         $objAccesoDato = AccesoDatos::obtenerInstancia();
-        $consulta = $objAccesoDato->prepararConsulta("UPDATE usuarios SET fechaBaja = :fechaBaja WHERE id = :id");
+        $consulta = $objAccesoDato->prepararConsulta("UPDATE usuarios SET fechaBaja = :fechaBaja, estado = :estado WHERE id = :id");
         $fecha = new DateTime(date("d-m-Y"));
         $consulta->bindValue(':id', $usuario, PDO::PARAM_INT);
         $consulta->bindValue(':fechaBaja', date_format($fecha, 'Y-m-d H:i:s'));
+        $consulta->bindValue(':estado', "despedido", PDO::PARAM_INT);
         $consulta->execute();
     }
 }
