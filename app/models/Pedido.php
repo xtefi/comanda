@@ -22,7 +22,7 @@ class Pedido{
     public static function obtenerTodos()
     {
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
-        $consulta = $objAccesoDatos->prepararConsulta("SELECT id, estado, idMesa, idProductos, tiempo FROM pedidos");
+        $consulta = $objAccesoDatos->prepararConsulta("SELECT idMesa, idProductos, idUsuario, horaPedido, tiempoPreparacion, estado FROM pedidos");
         $consulta->execute();
 
         return $consulta->fetchAll(PDO::FETCH_CLASS, 'Pedido');
@@ -31,7 +31,7 @@ class Pedido{
     public static function obtenerPedido($pedido)
     {
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
-        $consulta = $objAccesoDatos->prepararConsulta("SELECT id, estado, idMesa, idProductos, tiempo FROM pedidos WHERE id = :id");
+        $consulta = $objAccesoDatos->prepararConsulta("SELECT idMesa, idProductos, idUsuario, horaPedido, tiempoPreparacion, estado FROM pedidos WHERE id = :id");
         $consulta->bindValue(':pedido', $pedido, PDO::PARAM_STR);
         $consulta->execute();
 

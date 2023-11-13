@@ -33,7 +33,7 @@ class PedidoController extends Pedido implements IApiUsable
     {
         // Buscamos usuario por nombre
         $pdd = $args['pedido'];
-        $pedido = Pedido::obtenerUsuario($pdd);
+        $pedido = Pedido::obtenerPedido($pdd);
         $payload = json_encode($pedido);
 
         $response->getBody()->write($payload);

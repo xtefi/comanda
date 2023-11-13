@@ -52,7 +52,7 @@ VALUES
     ('PLATOS', 'HAMBURGUESA-GARBANZO'),
     ('POSTRES', 'FLAN-MIXTO'),
     ('POSTRES', 'VOLCAN-CHOCOLATE'),
-    ('POSTRES', 'HELADO-CHOCOLATE')
+    ('POSTRES', 'HELADO-CHOCOLATE');
 
 --
 -- ESTRUCTURA PARA LA TABLA 'MESAS'
@@ -67,18 +67,18 @@ CREATE TABLE mesas (
     FOREIGN KEY (idPedido) REFERENCES pedidos(id)
 );
 
-INSERT INTO mesas (idPedido, idUsuario, estado, nombreCliente)
+INSERT INTO mesas (idUsuario, estado, nombreCliente)
 VALUES
-    (null, 4, 'ESPERANDO', 'Bartolo'),
-    (null, 4, 'COMIENDO', 'Margaret'),
-    (null, null, 'VACIA', ''),
-    (null, null, 'VACIA', ''),
-    (null, null, 'VACIA', ''),
-    (null, null, 'VACIA', ''),
-    (null, null, 'VACIA', ''),
-    (null, null, 'VACIA', ''),
-    (null, null, 'VACIA', ''),
-    (null, null, 'VACIA', '')
+    (4, 'ESPERANDO', 'Bartolo'),
+    (4, 'COMIENDO', 'Margaret'),
+    (null, 'VACIA', ''),
+    (null, 'VACIA', ''),
+    (null, 'VACIA', ''),
+    (null, 'VACIA', ''),
+    (null, 'VACIA', ''),
+    (null, 'VACIA', ''),
+    (null, 'VACIA', ''),
+    (null, 'VACIA', '');
 
 --
 -- ESTRUCTURA PARA LA TABLA 'PEDIDOS'
@@ -89,7 +89,7 @@ CREATE TABLE pedidos (
     `idProductos` int,
     `idUsuario` int,
     `estado` VARCHAR(50),
-    `tiempo` int,
+    `tiempo` DATE,
     FOREIGN KEY (idUsuario) REFERENCES usuarios(id),
     FOREIGN KEY (idMesa) REFERENCES mesas(id),
     FOREIGN KEY (idProductos) REFERENCES productos(id)
@@ -97,5 +97,5 @@ CREATE TABLE pedidos (
 
 INSERT INTO pedidos (idMesa, idProductos, idUsuario, estado, tiempo)
 VALUES
-    (1, 2, 4,'PENDIENTE', 0),
-    (2,'PREPARACION', 1, 3, 0)
+    (1, 2, 4,'PENDIENTE', "00: 00"),
+    (2,'PREPARACION', 1, 3, "00: 15");
