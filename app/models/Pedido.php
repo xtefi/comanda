@@ -8,12 +8,12 @@ class Pedido{
     public $horaPedido;
     public $tiempoPreparacion;
     public $estado; // PENDIENTES - PREPARACION - LISTO - ENTREGADO - CANCELADO
-    public $tiempo;
 
     public function crearPedido()
     {
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
-        $consulta = $objAccesoDatos->prepararConsulta("INSERT INTO pedidos (estado, idMesa, idProductos, tiempo) VALUES ('$this->estado', '$this->idMesa', '$this->idProductos', '$this->tiempo')");
+        $query="INSERT INTO pedidos (idMesa, idProductos, idUsuario, horaPedido, tiempoPreparacion, estado) VALUES ('$this->idMesa', '$this->idProductos', '$this->idUsuario', '$this->horaPedido', '$this->tiempoPreparacion', '$this->estado')";
+        $consulta = $objAccesoDatos->prepararConsulta($query);
         $consulta->execute();
 
         return $objAccesoDatos->obtenerUltimoId();

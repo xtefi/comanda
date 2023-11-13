@@ -7,17 +7,19 @@ class PedidoController extends Pedido implements IApiUsable
     public function CargarUno($request, $response, $args)
     {
         $param = $request->getParsedBody();
-        $estado = $param['estado'];
         $idMesa = $param['idMesa'];
         $idProductos = $param['idProductos'];
+        $idUsuario = $param['idUsuario'];
         $tiempo = $param['tiempo'];
 
-        // Creamos el pedido
+        // El pedido se crea como PENDIENTE con la hora actual como horaPedido
         $pedido = new Pedido();
-        $pedido->estado = $estado;
         $pedido->idMesa = $idMesa;
         $pedido->idProductos = $idProductos;
-        $pedido->tiempo = $tiempo;
+        $pedido->idUsuario = $idUsuario;
+        $pedido->horaPedido = date("H:i");
+        $pedido->tiempoPreparacion = $tiempo;
+        $pedido->estado = "PENDIENTE";
         $pedido->crearPedido();
 
         $payload = json_encode(array("mensaje" => "Pedido creado con exito"));
