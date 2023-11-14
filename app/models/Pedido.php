@@ -38,6 +38,13 @@ class Pedido{
         return $consulta->fetchObject('pedido');
     }
 
+    //# Si al mozo le hacen un pedido de un vino, una cerveza y unas empanadas, deberían los
+// empleados correspondientes ver estos pedidos en su listado de “pendientes”, con la opción de
+// tomar una foto de la mesa con sus integrantes y relacionarlo con el pedido.
+
+# El mozo le da un código único alfanumérico (de 5 caracteres) al cliente que le permite identificar
+//su pedido.
+
 
 }
 

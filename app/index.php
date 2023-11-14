@@ -13,8 +13,7 @@ use Slim\Routing\RouteContext;
 require __DIR__ . '/../vendor/autoload.php';
 
 require_once './db/AccesoDatos.php';
-// require_once './middlewares/Logger.php';
-
+require_once './middlewares/permisosMiddleware.php';
 require_once './controllers/UsuarioController.php';
 require_once './controllers/ProductoController.php';
 require_once './controllers/PedidoController.php';
@@ -41,7 +40,7 @@ $app->group('/usuarios', function (RouteCollectorProxy $group) {
     $group->post('[/]', \UsuarioController::class . ':CargarUno');
     $group->post('/{usuario}', \UsuarioController::class . ':ModificarUno');
     $group->delete('/{id}', \UsuarioController::class . ':BorrarUno');
-  });
+  })->add(\permisosMiddleware::class . ':verificarRolSocio'); // solo el rol socio puede RWE en usuarios
 
 $app->group('/productos', function (RouteCollectorProxy $group) {
     $group->get('[/]', \ProductoController::class . ':TraerTodos');
@@ -58,10 +57,10 @@ $app->group('/pedidos', function (RouteCollectorProxy $group) {
     });
 
 $app->group('/mesas', function (RouteCollectorProxy $group) {
-    $group->get('[/]', \MesaController::class . ':TraerTodos');
+    $group->get('[/]', \MesaController::class . ':TraerTodos')->add(\permisosMiddleware::class . ':verificarRol-socio');
     $group->get('/{mesa}', \MesaController::class . ':TraerUno');
     $group->post('[/]', \MesaController::class . ':CargarUno');
-    $group->delete('/{id}', \MesaController::class . ':BorrarUno');
+    $group->delete('/{id}', \MesaController::class . ':BorrarUno')->add(\permisosMiddleware::class . 'verificarRolSocio');
     });
 
 $app->get('[/]', function (Request $request, Response $response) {    
