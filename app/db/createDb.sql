@@ -1,5 +1,5 @@
 --
--- ESTRUCTURA PARA LA TABLA 'USERS'
+-- ESTRUCTURA PARA LA TABLA 'USUARIOS'
 --
 
 CREATE TABLE usuarios (
@@ -14,57 +14,88 @@ CREATE TABLE usuarios (
 
 INSERT INTO usuarios (usuario, clave, rol, estado, fechaAlta, fechaBaja)
 VALUES
-    ('JamesKirk', 'admin1','socio','disponible','2020-10-10',null),
-    ('Spock', 'admin2','socio','disponible','2020-10-10',null);
+    ('JamesKirk', 'admin1','SOCIO','disponible','2020-10-10',null),
+    ('Spock', 'admin2','SOCIO','disponible','2020-10-10',null),
+    ('Uhura', 'admin3','SOCIO','disponible','2020-10-10',null),
+    ('Empedocles', 'mozo1','MOZO','disponible','2020-10-10',null),
+    ('Anaximenes', 'mozo2','MOZO','disponible','2020-10-10',null),
+    ('Heraclito', 'mozo3','MOZO','disponible','2020-10-10',null),
+    ('Caligula', 'sommelier1','SOMMELIER','disponible','2020-10-10',null),
+    ('Betular', 'repostero1','REPOSTERO','disponible','2020-10-10',null),
+    ('MarcoApicio', 'cheff1','CHEFF','disponible','2020-10-10',null),
+    ('Anaximandro', 'cervecero1','CERVECERO','disponible','2020-10-10',null);
 
-
+--
+-- ESTRUCTURA PARA LA TABLA 'PRODUCTOS'
+--
 CREATE TABLE productos (
-    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `id` INT(5) AUTO_INCREMENT PRIMARY KEY,
     `tipo` VARCHAR(50),
-    `descripcion` VARCHAR(50),
-    `tiempoPrep` int
+    `descripcion` VARCHAR(50)
 );
 
-INSERT INTO productos (tipo, descripcion, tiempoPrep)
+INSERT INTO productos (tipo, descripcion)
 VALUES
-    ('TRAGOS-VINOS', 'DV-CATENA-MALBEC', 0),
-    ('TRAGOS-VINOS', 'MOJITO', 5),
-    ('CERVEZA', 'IPA', 5),
-    ('CERVEZA', 'APA', 5),
-    ('CERVEZA', 'GOLDEN', 5),
-    ('PLATOS', 'MILANESA-NAPOLITANA', 25),
-    ('PLATOS', 'MILANESA-CABALLO', 20),
-    ('PLATOS', 'PIZZA-MUZZA', 20),
-    ('PLATOS', 'PIZZA-4QUESOS', 20),
-    ('PLATOS', 'PICADA-COMPLETA', 15),
-    ('PLATOS', 'PICADA-CAMPO', 15),
-    ('PLATOS', 'PICADA-CALIENTE', 15),
-    ('PLATOS', 'HAMBURGUESA', 25),
-    ('POSTRES', 'FLAN-MIXTO', 7),
-    ('POSTRES', 'VOLCAN-CHOCOLATE', 18),
-    ('POSTRES', 'HELADO-CHOCOLATE', 3)
+    ('TRAGOS-VINOS', 'DV-CATENA-MALBEC'),
+    ('TRAGOS-VINOS', 'DAIKIRI'),
+    ('CERVEZA', 'IPA'),
+    ('CERVEZA', 'APA'),
+    ('CERVEZA', 'CORONA'),
+    ('PLATOS', 'MILANESA-NAPOLITANA'),
+    ('PLATOS', 'MILANESA-CABALLO'),
+    ('PLATOS', 'PIZZA-MUZZA'),
+    ('PLATOS', 'PIZZA-4QUESOS'),
+    ('PLATOS', 'PICADA-COMPLETA'),
+    ('PLATOS', 'PICADA-CAMPO'),
+    ('PLATOS', 'PICADA-CALIENTE'),
+    ('PLATOS', 'HAMBURGUESA'),
+    ('PLATOS', 'HAMBURGUESA-GARBANZO'),
+    ('POSTRES', 'FLAN-MIXTO'),
+    ('POSTRES', 'VOLCAN-CHOCOLATE'),
+    ('POSTRES', 'HELADO-CHOCOLATE');
 
+--
+-- ESTRUCTURA PARA LA TABLA 'MESAS'
+--
 CREATE TABLE mesas (
     `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `idPedido` int
+    `idUsuario` int
     `estado` VARCHAR(50),
     `nombreCliente` VARCHAR(50),
-    `idPedido` int
+    FOREIGN KEY (idUsuario) REFERENCES usuarios(id),
+    FOREIGN KEY (idPedido) REFERENCES pedidos(id)
 );
 
-INSERT INTO mesas (estado, nombreCliente, idPedido)
+INSERT INTO mesas (idUsuario, estado, nombreCliente)
 VALUES
-    ('ESPERANDO', 'Bartolo', 0),
-    ('COMIENDO', 'Margaret', 1)
+    (4, 'ESPERANDO', 'Bartolo'),
+    (4, 'COMIENDO', 'Margaret'),
+    (null, 'VACIA', ''),
+    (null, 'VACIA', ''),
+    (null, 'VACIA', ''),
+    (null, 'VACIA', ''),
+    (null, 'VACIA', ''),
+    (null, 'VACIA', ''),
+    (null, 'VACIA', ''),
+    (null, 'VACIA', '');
 
+--
+-- ESTRUCTURA PARA LA TABLA 'PEDIDOS'
+--
 CREATE TABLE pedidos (
-    `id` INT(5) AUTO_INCREMENT PRIMARY KEY,
-    `estado` VARCHAR(50),
+    `id` INT(5) AUTO_INCREMENT UNSIGNED ZEROFILL PRIMARY KEY,
     `idMesa` int,
     `idProductos` int,
-    `tiempo` int
+    `idUsuario` int,
+    `estado` VARCHAR(50),
+    `tiempo` DATE,
+    FOREIGN KEY (idUsuario) REFERENCES usuarios(id),
+    FOREIGN KEY (idMesa) REFERENCES mesas(id),
+    FOREIGN KEY (idProductos) REFERENCES productos(id)
 );
 
-INSERT INTO pedidos (estado, idMesa, idProductos, tiempo)
+INSERT INTO pedidos (idMesa, idProductos, idUsuario, estado, tiempo)
 VALUES
-    ('PENDIENTE', 0, 5, 20),
-    ('COMIENDO', 1, 3, 0)
+    (1, 2, 4,'PENDIENTE', "00: 00"),
+    (2,'PREPARACION', 1, 3, "00: 15");
