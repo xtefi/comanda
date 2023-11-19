@@ -59,7 +59,10 @@ $app->group('/pedidos', function (RouteCollectorProxy $group) {
 $app->group('/mesas', function (RouteCollectorProxy $group) {
     $group->get('[/]', \MesaController::class . ':TraerTodos')->add(\permisosMiddleware::class . ':verificarRolSocio');
     $group->get('/{mesa}', \MesaController::class . ':TraerUno');
+    $group->get('/{codigo},{idMesa}', \MesaController::class . ':TraerFiltrado');
     $group->post('[/]', \MesaController::class . ':CargarUno');
+    $group->post('/{id}', \MesaController::class . ':ModificarUno');
+    $group->put('/{id}', \MesaController::class . ':IniciarMesa');
     $group->delete('/{id}', \MesaController::class . ':BorrarUno')->add(\permisosMiddleware::class . ':verificarRolSocio');
     });
 
