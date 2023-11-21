@@ -16,8 +16,8 @@ class MesaController extends Mesa implements IApiUsable
       $mesa->estado = $estado;
       $mesa->nombreCliente = $nombreCliente;
       $mesa->idUsuario = $idUsuario;
+      $mesa->codigo = Mesa::generarCodigoUnico();
       $mesa->crearMesa();
-
       $payload = json_encode(array("mensaje" => "Mesa creada con exito"));
 
       $response->getBody()->write($payload);
@@ -48,7 +48,36 @@ class MesaController extends Mesa implements IApiUsable
     
     public function ModificarUno($request, $response, $args)
     {
-      
+      $parametros = $request->getParsedBody();
+      $id = $parametros['id'];
+      $idUsuario = $parametros['idUsuario'];
+      $estado = $parametros['estado'];
+      $nombreCliente = $parametros['nombreCliente'];
+      $codigo = $parametros['codigo'];
+      Mesa::modificarMesa($idUsuario, $estado, $nombreCliente, $id, $codigo);
+
+      $payload = json_encode(array("mensaje" => "Mesa modificada con exito"));
+
+      $response->getBody()->write($payload);
+      return $response
+        ->withHeader('Content-Type', 'application/json');
+    }
+
+    public function IniciarMesa($request, $response, $args){
+      $parametros = $request->getParsedBody();
+      $id = $args['id'];
+      $idUsuario = $parametros['idUsuario'];
+      $estado = 'ESPERANDO';
+      $nombreCliente = $parametros['nombreCliente'];
+      $codigo = Mesa::generarCodigoUnico();
+
+      Mesa::modificarMesa($idUsuario, $estado, $nombreCliente, $id, $codigo);
+      $payload = json_encode(array("mensaje" => "Se ha iniciado la mesa, codigo: ". $codigo));
+
+      $response->getBody()->write($payload);
+      return $response
+        ->withHeader('Content-Type', 'application/json');
+
     }
 
     public function BorrarUno($request, $response, $args)
@@ -57,7 +86,6 @@ class MesaController extends Mesa implements IApiUsable
       $param = $request->getQueryParams();
       $estado = strtoupper($param['estado']);
       $mesa = Mesa::cerrarMesa($id, $estado);
-      $payload = json_encode($mesa);
 
       $payload = json_encode(array("mensaje" => "Mesa cerrada"));
 

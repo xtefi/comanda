@@ -58,44 +58,40 @@ VALUES
 -- ESTRUCTURA PARA LA TABLA 'MESAS'
 --
 CREATE TABLE mesas (
-    `id` INT AUTO_INCREMENT PRIMARY KEY,
-    `idPedido` int
-    `idUsuario` int
+    `id` INT AUTO_INCREMENT UNSIGNED ZEROFILL PRIMARY KEY,
+    `idUsuario` int,
+    `codigo` VARCHAR(5),
     `estado` VARCHAR(50),
-    `nombreCliente` VARCHAR(50),
-    FOREIGN KEY (idUsuario) REFERENCES usuarios(id),
-    FOREIGN KEY (idPedido) REFERENCES pedidos(id)
+    `nombreCliente` VARCHAR(50)
 );
 
-INSERT INTO mesas (idUsuario, estado, nombreCliente)
+INSERT INTO mesas (idUsuario, codigo, estado, nombreCliente)
 VALUES
-    (4, 'ESPERANDO', 'Bartolo'),
-    (4, 'COMIENDO', 'Margaret'),
-    (null, 'VACIA', ''),
-    (null, 'VACIA', ''),
-    (null, 'VACIA', ''),
-    (null, 'VACIA', ''),
-    (null, 'VACIA', ''),
-    (null, 'VACIA', ''),
-    (null, 'VACIA', ''),
-    (null, 'VACIA', '');
+    (4, 'ABC123', 'ESPERANDO', 'Bartolo'),
+    (4, 'abc123','COMIENDO', 'Margaret'),
+    (null, 'vacia','VACIA','', ''),
+    (null, 'vacia','VACIA','', ''),
+    (null, 'vacia','VACIA','', ''),
+    (null, 'vacia','VACIA','', ''),
+    (null, 'vacia','VACIA','', ''),
+    (null, 'vacia','VACIA','', '');
+
 
 --
 -- ESTRUCTURA PARA LA TABLA 'PEDIDOS'
 --
 CREATE TABLE pedidos (
-    `id` INT(5) AUTO_INCREMENT UNSIGNED ZEROFILL PRIMARY KEY,
+    `id` INT(5) AUTO_INCREMENT PRIMARY KEY,
+    `codigo` VARCHAR(5),
     `idMesa` int,
-    `idProductos` int,
+    `idProducto` int,
     `idUsuario` int,
-    `estado` VARCHAR(50),
-    `tiempo` DATE,
-    FOREIGN KEY (idUsuario) REFERENCES usuarios(id),
-    FOREIGN KEY (idMesa) REFERENCES mesas(id),
-    FOREIGN KEY (idProductos) REFERENCES productos(id)
+    `horaPedido` TIME,
+    `tiempo` TIME,
+    `estado` VARCHAR(50)
 );
 
-INSERT INTO pedidos (idMesa, idProductos, idUsuario, estado, tiempo)
+INSERT INTO pedidos (codigo, idMesa, idProducto, idUsuario, horaPedido, tiempo, estado)
 VALUES
     (1, 2, 4,'PENDIENTE', "00: 00"),
     (2,'PREPARACION', 1, 3, "00: 15");

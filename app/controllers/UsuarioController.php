@@ -56,11 +56,6 @@ class UsuarioController extends Usuario implements IApiUsable
     public function ModificarUno($request, $response, $args)
     {
         $parametros = $request->getParsedBody();
-        $tarda=new DateTime($parametros['hora']);
-        $horaPedido= new DateTime("16: 20");
-        $resta= $horaPedido->diff($tarda);
-
-        echo $resta . "\n";
 
         $id = $parametros['id'];
         $usuario = $parametros['usuario'];
