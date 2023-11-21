@@ -29,6 +29,7 @@ $app = AppFactory::create();
 
 // Add error middleware
 $app->addErrorMiddleware(true, true, true);
+date_default_timezone_set('America/Argentina/Buenos_Aires');
 
 // Add parse body
 $app->addBodyParsingMiddleware();
@@ -54,12 +55,15 @@ $app->group('/pedidos', function (RouteCollectorProxy $group) {
     $group->get('[/]', \PedidoController::class . ':TraerTodos');
     $group->get('/{pedido}', \PedidoController::class . ':TraerUno');
     $group->post('[/]', \PedidoController::class . ':CargarUno');
+    $group->delete('[/]', \PedidoController::class . ':BorrarUno');
     });
 
 $app->group('/mesas', function (RouteCollectorProxy $group) {
     $group->get('[/]', \MesaController::class . ':TraerTodos')->add(\permisosMiddleware::class . ':verificarRolSocio');
     $group->get('/{mesa}', \MesaController::class . ':TraerUno');
     $group->post('[/]', \MesaController::class . ':CargarUno');
+    $group->post('/{id}', \MesaController::class . ':ModificarUno');
+    $group->put('/{id}', \MesaController::class . ':IniciarMesa');
     $group->delete('/{id}', \MesaController::class . ':BorrarUno')->add(\permisosMiddleware::class . ':verificarRolSocio');
     });
 
