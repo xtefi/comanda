@@ -34,7 +34,6 @@ class Pedido{
             $consulta->execute();    
             return $consulta->fetchAll(PDO::FETCH_CLASS, 'Pedido');
         }
-
     }
 
     public static function obtenerPedido($pedido)
@@ -61,6 +60,29 @@ class Pedido{
             $consulta->execute();    
         }
         return $consulta->fetchObject('Pedido');
+    }
+
+    public static function modificarPedido($id)
+    {
+        $objAccesoDato = AccesoDatos::obtenerInstancia();
+        $query="UPDATE pedidos SET tiempo = ?, horaPedido = ?, estado = ? WHERE id = ?";
+        $consulta = $objAccesoDato->prepararConsulta($query);
+        $consulta->bindParam(1, $usuario);
+        $consulta->bindParam(2, $clave);
+        $consulta->bindParam(3, $rol);
+        $consulta->bindParam(4, $estado);
+        $consulta->bindParam(5, $id);
+        $consulta->execute();
+    }
+
+    public static function cancelarPedido($id)
+    {
+        $objAccesoDato = AccesoDatos::obtenerInstancia();
+        $consulta = $objAccesoDato->prepararConsulta("UPDATE pedidos SET estado = :estado WHERE id = :id");
+        $fecha = new DateTime(date("d-m-Y"));
+        $consulta->bindValue(':id', $id, PDO::PARAM_INT);
+        $consulta->bindValue(':estado', "CANCELADO", PDO::PARAM_INT);
+        $consulta->execute();
     }
 
 

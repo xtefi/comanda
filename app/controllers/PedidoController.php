@@ -55,18 +55,6 @@ class PedidoController extends Pedido implements IApiUsable
       return $response
         ->withHeader('Content-Type', 'application/json');
     }
-
-    public function TraerFiltrado($request, $response, $args)
-    {
-      $param = $request->getQueryParams();
-      $codigo = $param['codigo'];
-      $idMesa = $param['idMesa'];
-      $lista = Pedido::obtenerPorCodigoYMesa($codigo, $idMesa);
-      $payload = json_encode(array("listPedidos" => $lista));
-      $response->getBody()->write($payload);
-      return $response
-        ->withHeader('Content-Type', 'application/json');
-    }
     
     public function ModificarUno($request, $response, $args)
     {
@@ -75,6 +63,14 @@ class PedidoController extends Pedido implements IApiUsable
 
     public function BorrarUno($request, $response, $args)
     {
+      $parametros = $request->getQueryParams();
+      $id = $parametros['id'];
+      Pedido::cancelarPedido($id);
 
+      $payload = json_encode(array("mensaje" => "Pedido cancelado"));
+
+      $response->getBody()->write($payload);
+      return $response
+        ->withHeader('Content-Type', 'application/json');
     }
 }
