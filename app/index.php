@@ -20,7 +20,9 @@ require_once './controllers/ProductoController.php';
 require_once './controllers/PedidoController.php';
 require_once './controllers/MesaController.php';
 require_once './controllers/EncuestaController.php';
+require_once './controllers/LogsController.php';
 require_once './utils/AutentificadorJWT.php';
+require_once './utils/archivosCsv.php';
 
 
 // Load ENV
@@ -85,6 +87,11 @@ $app->group('/encuesta', function (RouteCollectorProxy $group) {
 $app->group('/logs', function (RouteCollectorProxy $group) {
     $group->get('[/]', \UsuarioController::class . ':MostrarLogs');
 })->add(\permisosMiddleware::class . ':verificarRolSocio');
+
+$app->group('/archivos', function (RouteCollectorProxy $group) {
+    $group->get('/crearCsv', \LogsController::class . ':EndPointEscribirCsv');
+    $group->get('/crearPdf', \LogsController::class . ':EndPointEscribirPdf');
+});
 
 $app->get('[/]', function (Request $request, Response $response) {    
     $payload = json_encode(array("mensaje" => "Slim Framework 4 PHP"));

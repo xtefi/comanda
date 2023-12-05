@@ -1,5 +1,7 @@
 <?php
 
+//require_once './utils/PdfServicio.php';
+
 class Pedido{
     public $id;    // 5 CARACTERES
     public $codigo;
@@ -88,10 +90,18 @@ class Pedido{
         return $consulta->fetchAll(PDO::FETCH_CLASS, 'Pedido');    
     }
 
-    //# Si al mozo le hacen un pedido de un vino, una cerveza y unas empanadas, deberían los
-// empleados correspondientes ver estos pedidos en su listado de “pendientes”, con la opción de
-// tomar una foto de la mesa con sus integrantes y relacionarlo con el pedido.
 
+
+    // public static function CrearPDF(){
+    //     $pdf = new PdfServicio();
+        
+    //     $pdf->SetTitle("Reportes Empleados");
+    //     $pdf->AddPage();
+    //     $pdf->Cell(150,10,'PEDIDOS ' ,0,1);
+    //     $pdf->MultiCell(150,10, Pedidos::obtenerTodos("SOCIO"));
+    //     $pdf->Output();
+    //     ob_end_flush();
+    // }
 
 }
 

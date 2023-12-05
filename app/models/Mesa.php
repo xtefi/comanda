@@ -49,17 +49,21 @@ class Mesa{
     public static function modificarEstado($estado, $id, $codigo)
     {
         $objAccesoDato = AccesoDatos::obtenerInstancia();
-        if($estado === "PAGANDO" && !empty($codigo)){
-            // $consulta = $objAccesoDatos->prepararConsulta("SELECT SUM(precio) as sum_total FROM pedidos WHERE codigo = :codigo");
-            // $consulta->bindValue(':codigo', $codigo, PDO::PARAM_STR);
-            // $total = $consulta->execute();
-            // echo "Total para el pedido: " . $total;
+        if($estado === "PAGANDO"){
+            $query="SELECT SUM(precio) FROM pedidos WHERE codigo = ?";
+            $consulta = $objAccesoDato->prepararConsulta($query);
+            $consulta->bindParam(1, $codigo);
+            $consulta->execute();
+            $total = $consulta->fetch();
+            echo "Total para el pedido: " . $total;
+        }else{
+            $query="UPDATE mesas SET estado = ? WHERE id = ?";
+            $consulta = $objAccesoDato->prepararConsulta($query);
+            $consulta->bindParam(1, $estado);
+            $consulta->bindParam(2, $id);
+            $consulta->execute();
         }
-        $query="UPDATE mesas SET estado = ? WHERE id = ?";
-        $consulta = $objAccesoDato->prepararConsulta($query);
-        $consulta->bindParam(1, $estado);
-        $consulta->bindParam(2, $id);
-        $consulta->execute();
+
     }
 
     public static function cerrarMesa($id)  // SOLO PARA ADMIN - ESTADO CERRADA

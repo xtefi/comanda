@@ -1,0 +1,23 @@
+1,6,Anaximandro,CERVECERO,PEDIDOS,OBTENER,null,{"listPedidos":[{"id":5,"codigo":"0bbf5","idMesa":1,"idProducto":5,"idUsuario":1,"horaPedido":"22:43:00","tiempoPreparacion":"00:00:00","estado":"PENDIENTE","tipo":"CERVEZA","descripcion":"CORONA"},{"id":4,"codigo":"1xzf5","idMesa":1,"idProducto":4,"idUsuario":1,"horaPedido":"00:00:00","tiempoPreparacion":"0","estado":"PENDIENTE","tipo":"CERVEZA","descripcion":"APA"},{"id":4,"codigo":"1xzf5","idMesa":1,"idProducto":4,"idUsuario":1,"horaPedido":"00:00:00","tiempoPreparacion":"0","estado":"PENDIENTE","tipo":"CERVEZA","descripcion":"APA"},{"id":5,"codigo":"1xzf5","idMesa":1,"idProducto":5,"idUsuario":1,"horaPedido":"14:45:00","tiempoPreparacion":"12:20","estado":"PREPARACION","tipo":"CERVEZA","descripcion":"CORONA"},{"id":3,"codigo":"1xzf5","idMesa":1,"idProducto":3,"idUsuario":1,"horaPedido":"00:00:00","tiempoPreparacion":"0","estado":"PENDIENTE","tipo":"CERVEZA","descripcion":"IPA"}]}
+2,,usuarioTest,,LOGIN,LOGUEO-SISTEMA,,
+3,,usuarioTest,,LOGIN,LOGUEO-SISTEMA,,
+4,,Anaximandro,,LOGIN,LOGUEO-SISTEMA,,
+5,,Anaximandro,,LOGIN,LOGUEO-SISTEMA,,
+6,0,Anaximandro,,LOGIN,LOGUEO-SISTEMA,,
+7,0,Anaximandro,,LOGIN,LOGUEO-SISTEMA,,
+8,,,,LOGIN,LOGUEO-SISTEMA,,
+9,6,Anaximandro,CERVECERO,LOGIN,LOGUEO-SISTEMA,,
+10,2,Spock,socio,LOGIN,LOGUEO-SISTEMA,,
+11,2,Spock,socio,PEDIDOS,CARGAR,{"codigo":"1xzf5","idMesa":1,"idProducto":3,"idUsuario":1},{"mensaje":"Pedido creado con exito"}
+12,2,Spock,socio,MESAS,CARGAR,{"codigo":"0bbf5","estado":"PAGANDO"},{"mensaje":"Mesa modificada con exito"}
+13,2,Spock,socio,MESAS,CARGAR,{"codigo":"0bbf5","estado":"PAGANDO"},{"mensaje":"Mesa modificada con exito"}
+14,2,Spock,socio,MESAS,CARGAR,{"codigo":"0bbf5","estado":"PAGANDO"},{"mensaje":"Mesa modificada con exito"}
+15,2,Spock,socio,PEDIDOS,CARGAR,{"codigo":"1xzf5","idMesa":1,"idProducto":3,"idUsuario":1,"precio":4},{"mensaje":"Pedido creado con exito"}
+16,2,Spock,socio,PEDIDOS,CARGAR,{"codigo":"1xzf5","idMesa":1,"idProducto":3,"idUsuario":1,"precio":4},{"mensaje":"Pedido creado con exito"}
+17,2,Spock,socio,PEDIDOS,CARGAR,{"codigo":"1xzf5","idMesa":1,"idProducto":3,"idUsuario":1,"precio":4},{"mensaje":"Pedido creado con exito"}
+18,2,Spock,socio,MESAS,CARGAR,{"codigo":"0bbf5","estado":"PAGANDO"},{"mensaje":"Mesa modificada con exito"}
+19,2,Spock,socio,MESAS,CARGAR,{"codigo":"0bbf5","estado":"PAGANDO"},{"mensaje":"Mesa modificada con exito"}
+20,2,Spock,socio,MESAS,CARGAR,{"codigo":"0bbf5","estado":"PAGANDO"},{"mensaje":"Mesa modificada con exito"}
+21,2,Spock,socio,MESAS,CARGAR,{"codigo":"0bbf5","estado":"PAGANDO"},{"mensaje":"Mesa modificada con exito"}
+22,2,Spock,socio,MESAS,CARGAR,{"codigo":"0bbf5","estado":"PAGANDO"},{"mensaje":"Mesa modificada con exito"}
+23,2,Spock,socio,MESAS,CARGAR,{"codigo":"0bbf5","estado":"PAGANDO"},{"mensaje":"Mesa modificada con exito"}

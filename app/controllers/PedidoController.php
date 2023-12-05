@@ -51,7 +51,7 @@ class PedidoController extends Pedido implements IApiUsable
       $jwtHeader = $request->getHeaderLine('Authorization');
       $tokenWithoutBearer = str_replace('Bearer ', '', $jwtHeader);
       $usuario = AutentificadorJWT::ObtenerData($tokenWithoutBearer);
-
+      //Pedido::CrearPDF();
       $rol = strtoupper($usuario->rol);
 
       $param = $request->getQueryParams();

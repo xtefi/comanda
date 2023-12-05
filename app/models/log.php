@@ -26,6 +26,28 @@ class Log{
         return $objAccesoDatos->obtenerUltimoId();
     }
 
+    public static function ConstructorLogs($id, $id_usuario, $usuario, $rol, $entidad, $operacion, $datos_operacion, $datos_resultado_operacion) {
+        $logs = new Log();
+        $logs->id = $id;
+        $logs->id_usuario = $id_usuario;
+        $logs->usuario = $usuario;
+        $logs->rol = $rol;
+        $logs->entidad = $entidad;
+        $logs->operacion = $operacion;
+        $logs->datos_operacion = $datos_operacion;
+        $logs->datos_resultado_operacion = $datos_resultado_operacion;
+        return $logs;
+    }
+
+    public static function obtenerTodos()
+    {
+        $objAccesoDatos = AccesoDatos::obtenerInstancia();
+        $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM logs");
+        $consulta->execute();
+
+        return $consulta->fetchAll(PDO::FETCH_CLASS, 'Log');
+    }
+
     public static function filtroLogsEmpleados($filtro, $opcion){
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
         $query;

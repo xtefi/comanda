@@ -134,4 +134,5 @@ class UsuarioController extends Usuario implements IApiUsable
     // d- Cantidad de operaciones de cada uno por separado.
     // e- Posibilidad de dar de alta a nuevos, suspenderlos o borrarlos.
     }
+
 }
