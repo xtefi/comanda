@@ -8,7 +8,7 @@ class Pedido{
     public $idUsuario;
     public $horaPedido;
     public $tiempoPreparacion;
-    public $estado; // PENDIENTES - PREPARACION - LISTO - ENTREGADO - CANCELADO
+    public $estado; // PENDIENTE - PREPARACION - LISTO - ENTREGADO - CANCELADO
 
     public function crearPedido()
     {
@@ -20,20 +20,24 @@ class Pedido{
         return $objAccesoDatos->obtenerUltimoId();
     }
 
-    public static function obtenerTodos($codigo='')
+    public static function obtenerTodos($rol)
     {
-        if(!empty($codigo)){
-            $objAccesoDatos = AccesoDatos::obtenerInstancia();
-            $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM pedidos WHERE codigo = ?");
-            $consulta->bindParam(1, $codigo);
-            $consulta->execute();    
-            return $consulta->fetchAll(PDO::FETCH_CLASS, 'Pedido');
-        }else{
-            $objAccesoDatos = AccesoDatos::obtenerInstancia();
-            $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM pedidos");
-            $consulta->execute();    
-            return $consulta->fetchAll(PDO::FETCH_CLASS, 'Pedido');
+        $objAccesoDatos = AccesoDatos::obtenerInstancia();
+        $query;
+        if($rol === "SOCIO" || $rol === "MOZO"){
+            $query="SELECT * FROM pedidos";
+        }elseif($rol === "COCINERO"){
+            $query="SELECT * FROM pedidos INNER JOIN productos ON pedidos.idProducto = productos.id WHERE productos.tipo = 'PLATOS' or productos.tipo = 'POSTRES' AND pedidos.estado = 'PENDIENTE'";
+        }elseif($rol === "CERVECERO"){
+            $query="SELECT * FROM pedidos INNER JOIN productos ON pedidos.idProducto = productos.id WHERE productos.tipo = 'CERVEZA' AND pedidos.estado = 'PENDIENTE'";
+        }elseif($rol === "BARTENDER"){
+            $query="SELECT * FROM pedidos INNER JOIN productos ON pedidos.idProducto = productos.id WHERE productos.tipo = 'TRAGOS-VINOS' AND pedidos.estado = 'PENDIENTE'";
         }
+
+        $consulta = $objAccesoDatos->prepararConsulta($query);
+        $consulta->execute();    
+        return $consulta->fetchAll(PDO::FETCH_CLASS, 'Pedido');
+
     }
 
     public static function obtenerPedido($pedido)

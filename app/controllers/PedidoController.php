@@ -1,6 +1,7 @@
 <?php
 require_once './models/Pedido.php';
 require_once './interfaces/IApiUsable.php';
+require_once './utils/AutentificadorJWT.php';
 
 class PedidoController extends Pedido implements IApiUsable
 {
@@ -14,13 +15,12 @@ class PedidoController extends Pedido implements IApiUsable
 
       // El pedido se crea como PENDIENTE 
       $pedido = new Pedido();
-      $pedido->codigo = Pedido::generarCodigoUnico();
+      $pedido->codigo = $codigo;
       $pedido->idMesa = $idMesa;
       $pedido->idProducto = $idProducto;
       $pedido->idUsuario = $idUsuario;
       $pedido->horaPedido = '0';
       $pedido->tiempoPreparacion = '0';
-      $pedido->tiempoRestante = '0';
       $pedido->estado = "PENDIENTE";
       $pedido->crearPedido();
 
@@ -45,11 +45,17 @@ class PedidoController extends Pedido implements IApiUsable
         ->withHeader('Content-Type', 'application/json');
     }
 
-    public function TraerTodos($request, $response, $args)
+    public function TraerTodos($request, $response, $args)  // TRAE "TODOS" SEGUN ROL DE USUARIO
     {
+      // CARGO EL TOKEN
+      $jwtHeader = $request->getHeaderLine('Authorization');
+      $tokenWithoutBearer = str_replace('Bearer ', '', $jwtHeader);
+      $usuario = AutentificadorJWT::ObtenerData($tokenWithoutBearer);
+
+      $rol = strtoupper($usuario->rol);
+
       $param = $request->getQueryParams();
-      $codigo = $param['codigo'];
-      $lista = Pedido::obtenerTodos($codigo);
+      $lista = Pedido::obtenerTodos($rol);
       $payload = json_encode(array("listPedidos" => $lista));
       $response->getBody()->write($payload);
       return $response
