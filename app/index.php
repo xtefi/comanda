@@ -14,10 +14,12 @@ require __DIR__ . '/../vendor/autoload.php';
 
 require_once './db/AccesoDatos.php';
 require_once './middlewares/permisosMiddleware.php';
+require_once './middlewares/logsMiddleware.php';
 require_once './controllers/UsuarioController.php';
 require_once './controllers/ProductoController.php';
 require_once './controllers/PedidoController.php';
 require_once './controllers/MesaController.php';
+require_once './utils/AutentificadorJWT.php';
 
 
 // Load ENV
@@ -35,6 +37,12 @@ date_default_timezone_set('America/Argentina/Buenos_Aires');
 $app->addBodyParsingMiddleware();
 
 // Routes
+
+$app->group('/ingresar', function (RouteCollectorProxy $group) {
+    $group->post('/login', \UsuarioController::class . ':Login'); 
+    $group->post('/clientes', \UsuarioController::class . ':Login');
+});//->add(\logsMiddleware::class . ':LogOperacion');
+
 $app->group('/usuarios', function (RouteCollectorProxy $group) {
     $group->get('[/]', \UsuarioController::class . ':TraerTodos');
     $group->get('/{usuario}', \UsuarioController::class . ':TraerUno');
@@ -63,7 +71,7 @@ $app->group('/mesas', function (RouteCollectorProxy $group) {
     $group->get('/{mesa}', \MesaController::class . ':TraerUno');
     $group->post('[/]', \MesaController::class . ':CargarUno');
     $group->post('/{id}', \MesaController::class . ':ModificarUno');
-    $group->put('/{id}', \MesaController::class . ':IniciarMesa');
+    $group->post('/iniciar/{id}', \MesaController::class . ':IniciarMesa');
     $group->delete('/{id}', \MesaController::class . ':BorrarUno')->add(\permisosMiddleware::class . ':verificarRolSocio');
     });
 

@@ -15,9 +15,9 @@ class AutentificadorJWT
             'exp' => $ahora + (60000),
             'aud' => self::Aud(),
             'data' => $datos,
-            'app' => "Test JWT"
+            'app' => "Comanda"
         );
-        return JWT::encode($payload, self::$claveSecreta);
+        return JWT::encode($payload, self::$claveSecreta, 'HS256');
     }
 
     public static function VerificarToken($token)
@@ -34,9 +34,7 @@ class AutentificadorJWT
         } catch (Exception $e) {
             throw $e;
         }
-        if ($decodificado->aud !== self::Aud()) {
-            throw new Exception("No es el usuario valido");
-        }
+        return $decodificado;
     }
 
 
@@ -52,13 +50,9 @@ class AutentificadorJWT
         );
     }
 
-    public static function ObtenerData($token)
+     public static function ObtenerData($token)
     {
-        return JWT::decode(
-            $token,
-            self::$claveSecreta,
-            self::$tipoEncriptacion
-        )->data;
+        return JWT::decode($token, self::$claveSecreta, self::$tipoEncriptacion)->data;
     }
 
     private static function Aud()

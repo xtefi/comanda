@@ -1,5 +1,6 @@
 <?php
 require_once './models/Usuario.php';
+require_once './utils/AutentificadorJWT.php';
 require_once './interfaces/IApiUsable.php';
 
 class UsuarioController extends Usuario implements IApiUsable
@@ -83,5 +84,31 @@ class UsuarioController extends Usuario implements IApiUsable
         $response->getBody()->write($payload);
         return $response
           ->withHeader('Content-Type', 'application/json');
+    }
+
+    public function Login($request, $response, $args) {
+      $parametros = $request->getParsedBody();
+      $user =  $parametros['usuario'];
+      $pass =  $parametros['password'];
+  
+      if (isset($user) && isset($pass)) {
+        $usuario = Usuario::obtenerUsuario($user);  
+        if (!empty($usuario) && ($user == $usuario->usuario) && ($pass == $usuario->clave)) {  
+          $jwt = AutentificadorJWT::CrearToken($usuario);  
+          $message = [
+            'Autorizacion' => $jwt,
+            'Status' => 'Login success'
+          ];
+        } else {
+          $message = [
+            'Autorizacion' => 'Denegate',
+            'Status' => 'Login failed'
+          ];
+        }
+      }  
+      $payload = json_encode($message);  
+      $response->getBody()->write($payload);
+      return $response
+        ->withHeader('Content-Type', 'application/json');
     }
 }

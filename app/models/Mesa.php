@@ -63,6 +63,25 @@ class Mesa{
     
         return $codigoUnico;
     }
+
+    public static function guardarFoto($extensionFoto, $tamanoFoto, $controlAlta, $carpetaFoto, $fotoReserva, $ruta_destino)
+    {
+                // Validaciones de la foto - Valida tipo archivo - tamaño - directorio: si no existe lo crea
+        if (!((strpos($extensionFoto, "png") || strpos($extensionFoto, "jpeg")) && ($tamanoFoto < 10000000))) {
+            echo "La extensión o el tamaño de la foto no es correcta.\n";
+        }else if($controlAlta === false){
+            // si no se da el alta, no se carga la foto
+        }else{
+            if(!is_dir($carpetaFoto)){
+                mkdir($carpetaFoto, 0777, true);
+            }
+            if (move_uploaded_file($fotoReserva,  $ruta_destino)){
+                echo "\nLa foto del cliente ha sido cargada correctamente. \n";
+            }else{
+                echo "Ocurrió algún error al cargar la foto.\n";
+            }
+        }
+    }
     
 
 }

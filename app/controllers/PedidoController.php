@@ -12,14 +12,15 @@ class PedidoController extends Pedido implements IApiUsable
       $idProducto = $param['idProducto'];
       $idUsuario = $param['idUsuario'];
 
-      // El pedido se crea como PENDIENTE con la hora actual como horaPedido
+      // El pedido se crea como PENDIENTE 
       $pedido = new Pedido();
-      $pedido->codigo = $codigo;
+      $pedido->codigo = Pedido::generarCodigoUnico();
       $pedido->idMesa = $idMesa;
       $pedido->idProducto = $idProducto;
       $pedido->idUsuario = $idUsuario;
-      $pedido->horaPedido = date("H:i");
-      $pedido->tiempoPreparacion = '00:00';
+      $pedido->horaPedido = '0';
+      $pedido->tiempoPreparacion = '0';
+      $pedido->tiempoRestante = '0';
       $pedido->estado = "PENDIENTE";
       $pedido->crearPedido();
 
@@ -34,7 +35,6 @@ class PedidoController extends Pedido implements IApiUsable
 
     public function TraerUno($request, $response, $args)
     {
-      // Buscamos pedido por id
       $pdd = $args['pedido'];
 
       $pedido = Pedido::obtenerPedido($pdd);
@@ -56,9 +56,20 @@ class PedidoController extends Pedido implements IApiUsable
         ->withHeader('Content-Type', 'application/json');
     }
     
-    public function ModificarUno($request, $response, $args)
+    public function ModificarUno($request, $response, $args) // Modifica un pedido por ID
     {
+      $parametros = $request->getParsedBody();
+      $id = $args['id'];
+      $horaPedido = $parametros['horaPedido'];
+      $tiempoPreparacion = $parametros['tiempoPreparacion'];
+      $estado = $parametros['estado'];
+      Producto::modificarProducto($tipo, $descripcion, $id);
 
+      $payload = json_encode(array("mensaje" => "Producto modificado con exito"));
+
+      $response->getBody()->write($payload);
+      return $response
+        ->withHeader('Content-Type', 'application/json');
     }
 
     public function BorrarUno($request, $response, $args)

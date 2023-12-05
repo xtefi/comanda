@@ -7,16 +7,13 @@ class MesaController extends Mesa implements IApiUsable
     public function CargarUno($request, $response, $args)
     {
       $param = $request->getParsedBody();
-      $estado = $param['estado'];
-      $nombreCliente = $param['nombreCliente'];
-      $idUsuario = $param['idUsuario'];
 
-      // Creamos la mesa
+      // LA MESA SE CREA VACIA
       $mesa = new Mesa();
-      $mesa->estado = $estado;
-      $mesa->nombreCliente = $nombreCliente;
-      $mesa->idUsuario = $idUsuario;
-      $mesa->codigo = Mesa::generarCodigoUnico();
+      $mesa->estado = "CERRADA";
+      $mesa->nombreCliente = "";
+      $mesa->idUsuario = 0;
+      $mesa->codigo = "";
       $mesa->crearMesa();
       $payload = json_encode(array("mensaje" => "Mesa creada con exito"));
 
@@ -54,6 +51,7 @@ class MesaController extends Mesa implements IApiUsable
       $estado = $parametros['estado'];
       $nombreCliente = $parametros['nombreCliente'];
       $codigo = $parametros['codigo'];
+      
       Mesa::modificarMesa($idUsuario, $estado, $nombreCliente, $id, $codigo);
 
       $payload = json_encode(array("mensaje" => "Mesa modificada con exito"));
@@ -71,9 +69,20 @@ class MesaController extends Mesa implements IApiUsable
       $nombreCliente = $parametros['nombreCliente'];
       $codigo = Mesa::generarCodigoUnico();
 
+      //SE PUEDE CARGAR LA FOTO      
+      $fotoReserva = $_FILES['fotoCliente']['tmp_name'];
+      $carpetaFoto = 'C:/Users/54113/Desktop/ImagenesDeClientes/';
+      $nombreFoto = $codigo . "-" . $nombreCliente . "-" ;
+      $extensionFoto = $_FILES['fotoCliente']['type'];
+      $tamanoFoto = $_FILES['fotoCliente']['size'];
+      $ruta_destino = $carpetaFoto . $nombreFoto . ".jpg";
+      if(isset($fotoReserva)) {
+        Mesa::guardarFoto($extensionFoto, $tamanoFoto, true, $carpetaFoto, $fotoReserva, $ruta_destino);
+      }
+      
       Mesa::modificarMesa($idUsuario, $estado, $nombreCliente, $id, $codigo);
-      $payload = json_encode(array("mensaje" => "Se ha iniciado la mesa, codigo: ". $codigo));
 
+      $payload = json_encode(array("mensaje" => "Mesa iniciada con exito"));
       $response->getBody()->write($payload);
       return $response
         ->withHeader('Content-Type', 'application/json');
