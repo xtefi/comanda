@@ -41,7 +41,7 @@ $app->addBodyParsingMiddleware();
 
 $app->group('/ingresar', function (RouteCollectorProxy $group) {
     $group->post('/login', \UsuarioController::class . ':Login'); 
-    $group->post('/clientes', \UsuarioController::class . ':Login');
+    $group->post('/clientes', \PedidoController::class . ':mostrarPedidoAlCliente');
 });//->add(\logsMiddleware::class . ':LogOperacion');
 
 $app->group('/usuarios', function (RouteCollectorProxy $group) {

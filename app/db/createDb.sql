@@ -87,14 +87,13 @@ CREATE TABLE pedidos (
     `idProducto` int,
     `idUsuario` int,
     `horaPedido` TIME,
-    `tiempo` TIME,
+    `tiempoPreparacion` TIME,
     `estado` VARCHAR(50)
 );
 
-INSERT INTO pedidos (codigo, idMesa, idProducto, idUsuario, horaPedido, tiempo, estado)
+INSERT INTO pedidos (codigo, idMesa, idProducto, idUsuario, horaPedido, tiempoPreparacion, estado)
 VALUES
-    (1, 2, 4,'PENDIENTE', "00: 00"),
-    (2,'PREPARACION', 1, 3, "00: 15");
+    ("abc123", 1, 4, 5, "12: 00", "12:20", "PENDIENTE")
 
 --
 -- ESTRUCTURA PARA LA TABLA 'LOGS'

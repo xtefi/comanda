@@ -74,11 +74,23 @@ class PedidoController extends Pedido implements IApiUsable
 
     public function BorrarUno($request, $response, $args)
     {
-      $parametros = $request->getQueryParams();
       $id = $parametros['id'];
       Pedido::cancelarPedido($id);
 
       $payload = json_encode(array("mensaje" => "Pedido cancelado"));
+
+      $response->getBody()->write($payload);
+      return $response
+        ->withHeader('Content-Type', 'application/json');
+    }
+
+    public function mostrarPedidoAlCliente($request, $response, $args)
+    {
+      $parametros = $request->getParsedBody();
+      $codigo = $parametros['codigo'];
+      $idMesa = $parametros['idMesa'];
+      $lista = Pedido::loginCliente($codigo, $idMesa);
+      $payload = json_encode(array("listaUsuario" => $lista));
 
       $response->getBody()->write($payload);
       return $response

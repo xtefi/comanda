@@ -8,13 +8,12 @@ class Pedido{
     public $idUsuario;
     public $horaPedido;
     public $tiempoPreparacion;
-    public $tiempoRestante;
     public $estado; // PENDIENTES - PREPARACION - LISTO - ENTREGADO - CANCELADO
 
     public function crearPedido()
     {
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
-        $query="INSERT INTO pedidos (codigo, idMesa, idProducto, idUsuario, horaPedido, tiempoPreparacion, tiempoRestante, estado) VALUES ('$this->codigo','$this->idMesa', '$this->idProducto', '$this->idUsuario', '$this->horaPedido', '$this->tiempoPreparacion', '$this->tiempoRestante', '$this->estado')";
+        $query="INSERT INTO pedidos (codigo, idMesa, idProducto, idUsuario, horaPedido, tiempoPreparacion, estado) VALUES ('$this->codigo','$this->idMesa', '$this->idProducto', '$this->idUsuario', '$this->horaPedido', '$this->tiempoPreparacion', '$this->estado')";
         $consulta = $objAccesoDatos->prepararConsulta($query);
         $consulta->execute();
 
@@ -47,21 +46,6 @@ class Pedido{
         return $consulta->fetchObject('Pedido');
     }
 
-    public static function obtenerPorCodigoYMesa($codigo, $idMesa)
-    {
-        if(!empty($codigo) && $idMesa != null){
-            $objAccesoDatos = AccesoDatos::obtenerInstancia();
-            $query="SELECT pedido.id, pedido.codigo, pedido.idMesa, pedido.idProducto, pedido.idUsuario, pedido.horaPedido, pedido.tiempoPreparacion, pedido.estado 
-                    FROM pedidos 
-                    JOIN mesa ON pedido.idMesa = mesa.id 
-                    WHERE pedido.codigo = ? AND pedido.idMesa = ?";
-            $consulta = $objAccesoDatos->prepararConsulta($query);
-            $consulta->bindParam(1, $codigo);
-            $consulta->bindParam(2, $idMesa);
-            $consulta->execute();    
-        }
-        return $consulta->fetchObject('Pedido');
-    }
 
     public static function modificarPedido($id)
     {
@@ -86,29 +70,12 @@ class Pedido{
 
     public static function loginCliente($codigo, $idMesa){
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
-        $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM pedidos WHERE codigo = :codigo AND idMesa = :idMesa");
+        $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM pedidos INNER JOIN productos ON pedidos.idProducto = productos.id WHERE codigo = :codigo AND idMesa = :idMesa");
         $consulta->bindValue(':codigo', $codigo, PDO::PARAM_STR);
         $consulta->bindValue(':idMesa', $idMesa, PDO::PARAM_INT);
         $consulta->execute();
 
-        foreach($item as $consulta){
-            Pedido::tiempoRestante($item->id);
-        }
-        $consulta->execute();
-
-        return $consulta->fetchObject('Pedido');        
-    }
-
-    private static function tiempoRestante($id){
-        $hora_actual = time();
-        $pedido = Pedido::obtenerPedido($id);
-        $tiempoRestante = $pedido->horaPedido + $pedido->tiempoPreparacion - $hora_Actual;
-
-        $objAccesoDato = AccesoDatos::obtenerInstancia();
-        $query="UPDATE pedidos SET tiempoRestante = ? WHERE id = ?";
-        $consulta = $objAccesoDato->prepararConsulta($query);
-        $consulta->bindParam(1, $tiempoRestante);
-        $consulta->bindParam(2, $pedido->id);
+        return $consulta->fetchAll(PDO::FETCH_CLASS, 'Pedido');    
     }
 
     //# Si al mozo le hacen un pedido de un vino, una cerveza y unas empanadas, deberían los
