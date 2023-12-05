@@ -86,14 +86,16 @@ class UsuarioController extends Usuario implements IApiUsable
           ->withHeader('Content-Type', 'application/json');
     }
 
+
+    // SE LOGUEA CON USUARIO Y CONTRASEÑA - VERIFICA QUE ESTÉ DISPONIBLE - NO DESPEDIDO/NO LICENCIA
     public function Login($request, $response, $args) {
       $parametros = $request->getParsedBody();
       $user =  $parametros['usuario'];
       $pass =  $parametros['password'];
   
       if (isset($user) && isset($pass)) {
-        $usuario = Usuario::obtenerUsuario($user);  
-        if (!empty($usuario) && ($user == $usuario->usuario) && ($pass == $usuario->clave)) {  
+        $usuario = Usuario::obtenerUsuario($user); 
+        if (!empty($usuario) && ($pass == $usuario->clave) && (strtolower($usuario->estado) === "disponible")) {  
           $jwt = AutentificadorJWT::CrearToken($usuario);  
           $message = [
             'Autorizacion' => $jwt,

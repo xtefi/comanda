@@ -19,6 +19,7 @@ require_once './controllers/UsuarioController.php';
 require_once './controllers/ProductoController.php';
 require_once './controllers/PedidoController.php';
 require_once './controllers/MesaController.php';
+require_once './controllers/EncuestaController.php';
 require_once './utils/AutentificadorJWT.php';
 
 
@@ -64,7 +65,7 @@ $app->group('/pedidos', function (RouteCollectorProxy $group) {
     $group->get('/{pedido}', \PedidoController::class . ':TraerUno');
     $group->post('[/]', \PedidoController::class . ':CargarUno');
     $group->delete('[/]', \PedidoController::class . ':BorrarUno');
-    });
+});
 
 $app->group('/mesas', function (RouteCollectorProxy $group) {
     $group->get('[/]', \MesaController::class . ':TraerTodos')->add(\permisosMiddleware::class . ':verificarRolSocio');
@@ -73,7 +74,13 @@ $app->group('/mesas', function (RouteCollectorProxy $group) {
     $group->post('/{id}', \MesaController::class . ':ModificarUno');
     $group->post('/iniciar/{id}', \MesaController::class . ':IniciarMesa');
     $group->delete('/{id}', \MesaController::class . ':BorrarUno')->add(\permisosMiddleware::class . ':verificarRolSocio');
-    });
+});
+
+$app->group('/encuesta', function (RouteCollectorProxy $group) {
+    $group->get('[/]', \EncuestaController::class . ':TraerTodos');
+    $group->get('/{valor}', \EncuestaController::class . ':MejoresPeoresComentarios'); // mejores - peores
+    $group->post('[/]', \EncuestaController::class . ':CargarUno');
+});
 
 $app->get('[/]', function (Request $request, Response $response) {    
     $payload = json_encode(array("mensaje" => "Slim Framework 4 PHP"));

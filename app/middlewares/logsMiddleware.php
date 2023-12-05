@@ -25,11 +25,13 @@ class logsMiddleware
         if(str_contains($path, 'login'))                           // LOGIN
         { 
             $request = $request->getParsedBody();
-            $id_usuario = $request['id'];
+            $clave = $request['password'];
             $usuario = $request['usuario'];
-            Log::Add($id_usuario, $usuario, 'LOGIN', 'LOGUEO-SISTEMA', "", "");
-
+            Log::Add($id_usuario, $usuario, "", 'LOGIN', 'LOGUEO-SISTEMA', "", "");
         }
+
+        //$id_usuario, $usuario, $rol, $entidad, $operacion, $datos_operacion, $datos_resultado_operacion)
+
         elseif(str_contains($path, 'mesas')){                       // CLIENTES
             if($metodo == 'POST'){
                 Log::Add($usuario->id, $usuario->usuario, 'CLIENTES', 'CARGAR', json_encode($param), $response->getBody());

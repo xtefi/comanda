@@ -95,3 +95,30 @@ INSERT INTO pedidos (codigo, idMesa, idProducto, idUsuario, horaPedido, tiempo, 
 VALUES
     (1, 2, 4,'PENDIENTE', "00: 00"),
     (2,'PREPARACION', 1, 3, "00: 15");
+
+--
+-- ESTRUCTURA PARA LA TABLA 'LOGS'
+--
+
+CREATE TABLE logs (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `id_usuario` INT,
+    `usuario` VARCHAR(50),
+    `rol` VARCHAR(50),
+    `entidad` VARCHAR(50),
+    `operacion` VARCHAR(50),
+    `datos_operacion` VARCHAR(5000),
+    `datos_resultado_operacion` VARCHAR(1000),
+    `fecha_hora` datetime
+);
+
+CREATE TABLE encuesta (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `mesa` INT,
+    `restaurante` INT,
+    `mozo` INT,
+    `cocinero` INT,
+    `experiencia` VARCHAR(66),
+    `codigo` VARCHAR(5),
+    `fecha` datetime
+);
