@@ -20,7 +20,7 @@ class Pedido{
         return $objAccesoDatos->obtenerUltimoId();
     }
 
-    public static function obtenerTodos($rol)
+    public static function obtenerTodos($rol) // LE PASO UN ROL DESDE EL CONTROLER, QUE VIENE ATADO AL TOKEN
     {
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
         $query;
@@ -33,11 +33,9 @@ class Pedido{
         }elseif($rol === "BARTENDER"){
             $query="SELECT * FROM pedidos INNER JOIN productos ON pedidos.idProducto = productos.id WHERE productos.tipo = 'TRAGOS-VINOS' AND pedidos.estado = 'PENDIENTE' or pedidos.estado = 'PREPARACION'";
         }
-
         $consulta = $objAccesoDatos->prepararConsulta($query);
         $consulta->execute();    
         return $consulta->fetchAll(PDO::FETCH_CLASS, 'Pedido');
-
     }
 
     public static function obtenerPedido($pedido)

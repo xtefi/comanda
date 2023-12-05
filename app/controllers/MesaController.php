@@ -51,10 +51,15 @@ class MesaController extends Mesa implements IApiUsable
       $estado = $parametros['estado'];
       $nombreCliente = $parametros['nombreCliente'];
       $codigo = $parametros['codigo'];
-      
-      Mesa::modificarMesa($idUsuario, $estado, $nombreCliente, $id, $codigo);
 
-      $payload = json_encode(array("mensaje" => "Mesa modificada con exito"));
+      if($estado !== "CERRADA"){
+        Mesa::modificarMesa($idUsuario, $estado, $nombreCliente, $id, $codigo);
+        $payload = json_encode(array("mensaje" => "Mesa modificada con exito"));
+      }else{
+        $payload = json_encode(array("mensaje" => "ERROR, no se puede cambiar estado a CERRADA"));
+      }
+      
+
 
       $response->getBody()->write($payload);
       return $response
@@ -93,8 +98,7 @@ class MesaController extends Mesa implements IApiUsable
     {
       $id = $args['id'];
       $param = $request->getQueryParams();
-      $estado = strtoupper($param['estado']);
-      $mesa = Mesa::cerrarMesa($id, $estado);
+      Mesa::cerrarMesa($id);
 
       $payload = json_encode(array("mensaje" => "Mesa cerrada"));
 

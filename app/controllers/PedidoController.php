@@ -24,8 +24,6 @@ class PedidoController extends Pedido implements IApiUsable
       $pedido->estado = "PENDIENTE";
       $pedido->crearPedido();
 
-      echo $pedido->horaPedido;
-
       $payload = json_encode(array("mensaje" => "Pedido creado con exito"));
 
       $response->getBody()->write($payload);

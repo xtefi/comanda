@@ -68,11 +68,11 @@ $app->group('/pedidos', function (RouteCollectorProxy $group) {
 });
 
 $app->group('/mesas', function (RouteCollectorProxy $group) {
-    $group->get('[/]', \MesaController::class . ':TraerTodos')->add(\permisosMiddleware::class . ':verificarRolSocio');
-    $group->get('/{mesa}', \MesaController::class . ':TraerUno');
-    $group->post('[/]', \MesaController::class . ':CargarUno');
-    $group->post('/{id}', \MesaController::class . ':ModificarUno');
-    $group->post('/iniciar/{id}', \MesaController::class . ':IniciarMesa');
+    $group->get('[/]', \MesaController::class . ':TraerTodos')->add(\permisosMiddleware::class . ':verificarRolSocioMozo');
+    $group->get('/{mesa}', \MesaController::class . ':TraerUno')->add(\permisosMiddleware::class . ':verificarRolSocioMozo');
+    $group->post('[/]', \MesaController::class . ':CargarUno')->add(\permisosMiddleware::class . ':verificarRolSocioMozo');
+    $group->post('/{id}', \MesaController::class . ':ModificarUno')->add(\permisosMiddleware::class . ':verificarRolSocioMozo');
+    $group->post('/iniciar/{id}', \MesaController::class . ':IniciarMesa')->add(\permisosMiddleware::class . ':verificarRolSocioMozo');
     $group->delete('/{id}', \MesaController::class . ':BorrarUno')->add(\permisosMiddleware::class . ':verificarRolSocio');
 });
 

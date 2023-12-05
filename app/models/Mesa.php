@@ -39,19 +39,19 @@ class Mesa{
         $query="UPDATE mesas SET idUsuario = ?, estado = ?, nombreCliente = ?, codigo= ? WHERE id = ?";
         $consulta = $objAccesoDato->prepararConsulta($query);
         $consulta->bindParam(1, $idUsuario);
-        $consulta->bindParam(2, $estado);
+        $consulta->bindParam(2, strtoupper($estado));
         $consulta->bindParam(3, $nombreCliente);
         $consulta->bindParam(4, $codigo);
         $consulta->bindParam(5, $id);
         $consulta->execute();
     }
 
-    public static function cerrarMesa($id, $estado)  // SOLO PARA ADMIN - ESTADO PAGANDO O CERRADA
+    public static function cerrarMesa($id)  // SOLO PARA ADMIN - ESTADO PAGANDO O CERRADA
     {
         $objAccesoDato = AccesoDatos::obtenerInstancia();
         $query="UPDATE mesas SET estado = ?, idUsuario = null, codigo = '', nombreCliente = '' WHERE id = ?";
         $consulta = $objAccesoDato->prepararConsulta($query);
-        $consulta->bindParam(1, $estado);
+        $consulta->bindParam(1, "CERRADA");
         $consulta->bindParam(2, $id);
         $consulta->execute();
     }
