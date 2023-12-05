@@ -66,12 +66,11 @@ class PedidoController extends Pedido implements IApiUsable
     {
       $parametros = $request->getParsedBody();
       $id = $args['id'];
-      $horaPedido = $parametros['horaPedido'];
       $tiempoPreparacion = $parametros['tiempoPreparacion'];
       $estado = $parametros['estado'];
-      Producto::modificarProducto($tipo, $descripcion, $id);
+      Pedido::tomarPedido($id, $tiempoPreparacion, $estado);
 
-      $payload = json_encode(array("mensaje" => "Producto modificado con exito"));
+      $payload = json_encode(array("mensaje" => "Pedido modificado con exito"));
 
       $response->getBody()->write($payload);
       return $response

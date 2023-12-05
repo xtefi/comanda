@@ -27,11 +27,11 @@ class Pedido{
         if($rol === "SOCIO" || $rol === "MOZO"){
             $query="SELECT * FROM pedidos";
         }elseif($rol === "COCINERO"){
-            $query="SELECT * FROM pedidos INNER JOIN productos ON pedidos.idProducto = productos.id WHERE productos.tipo = 'PLATOS' or productos.tipo = 'POSTRES' AND pedidos.estado = 'PENDIENTE'";
+            $query="SELECT * FROM pedidos INNER JOIN productos ON pedidos.idProducto = productos.id WHERE productos.tipo = 'PLATOS' or productos.tipo = 'POSTRES' AND pedidos.estado = 'PENDIENTE' or pedidos.estado = 'PREPARACION'";
         }elseif($rol === "CERVECERO"){
-            $query="SELECT * FROM pedidos INNER JOIN productos ON pedidos.idProducto = productos.id WHERE productos.tipo = 'CERVEZA' AND pedidos.estado = 'PENDIENTE'";
+            $query="SELECT * FROM pedidos INNER JOIN productos ON pedidos.idProducto = productos.id WHERE productos.tipo = 'CERVEZA' AND pedidos.estado = 'PENDIENTE' or pedidos.estado = 'PREPARACION'";
         }elseif($rol === "BARTENDER"){
-            $query="SELECT * FROM pedidos INNER JOIN productos ON pedidos.idProducto = productos.id WHERE productos.tipo = 'TRAGOS-VINOS' AND pedidos.estado = 'PENDIENTE'";
+            $query="SELECT * FROM pedidos INNER JOIN productos ON pedidos.idProducto = productos.id WHERE productos.tipo = 'TRAGOS-VINOS' AND pedidos.estado = 'PENDIENTE' or pedidos.estado = 'PREPARACION'";
         }
 
         $consulta = $objAccesoDatos->prepararConsulta($query);
@@ -51,15 +51,23 @@ class Pedido{
     }
 
 
-    public static function modificarPedido($id)
+    public static function tomarPedido($id, $tiempoPreparacion='', $estado)
     {
         $objAccesoDato = AccesoDatos::obtenerInstancia();
-        $query="UPDATE pedidos SET tiempoPreparacion = ?, horaPedido = ?, estado = ? WHERE id = ?";
-        $consulta = $objAccesoDato->prepararConsulta($query);
-        $consulta->bindParam(1, $tiempoPreparacion);
-        $consulta->bindParam(2, $horaPedido);
-        $consulta->bindParam(3, $estado);
-        $consulta->bindParam(4, $id);
+        $query;
+        if($estado === 'PREPARACION'){
+            $query="UPDATE pedidos SET tiempoPreparacion = ?, horaPedido = ?, estado = ? WHERE id = ?";
+            $consulta = $objAccesoDato->prepararConsulta($query);
+            $consulta->bindParam(1, $tiempoPreparacion);
+            $consulta->bindParam(2, date('H:i'));
+            $consulta->bindParam(3, $estado);
+            $consulta->bindParam(4, $id);  
+        }else{
+            $query="UPDATE pedidos SET estado = ? WHERE id = ?";
+            $consulta = $objAccesoDato->prepararConsulta($query);
+            $consulta->bindParam(1, $estado);
+            $consulta->bindParam(2, $id); 
+        }
         $consulta->execute();
     }
 
