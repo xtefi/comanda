@@ -42,7 +42,7 @@ $app->addBodyParsingMiddleware();
 $app->group('/ingresar', function (RouteCollectorProxy $group) {
     $group->post('/login', \UsuarioController::class . ':Login'); 
     $group->post('/clientes', \PedidoController::class . ':mostrarPedidoAlCliente');
-});//->add(\logsMiddleware::class . ':LogOperacion');
+})->add(\logsMiddleware::class . ':LogOperacion');
 
 $app->group('/usuarios', function (RouteCollectorProxy $group) {
     $group->get('[/]', \UsuarioController::class . ':TraerTodos');
@@ -65,7 +65,7 @@ $app->group('/pedidos', function (RouteCollectorProxy $group) {
     $group->post('[/]', \PedidoController::class . ':CargarUno');
     $group->post('/{id}', \PedidoController::class . ':ModificarUno');
     $group->delete('[/]', \PedidoController::class . ':BorrarUno');
-});
+})->add(\logsMiddleware::class . ':LogOperacion');
 
 $app->group('/mesas', function (RouteCollectorProxy $group) {
     $group->get('[/]', \MesaController::class . ':TraerTodos')->add(\permisosMiddleware::class . ':verificarRolSocioMozo');
@@ -74,7 +74,7 @@ $app->group('/mesas', function (RouteCollectorProxy $group) {
     $group->post('/{id}', \MesaController::class . ':ModificarUno')->add(\permisosMiddleware::class . ':verificarRolSocioMozo');
     $group->post('/iniciar/{id}', \MesaController::class . ':IniciarMesa')->add(\permisosMiddleware::class . ':verificarRolSocioMozo');
     $group->delete('/{id}', \MesaController::class . ':BorrarUno')->add(\permisosMiddleware::class . ':verificarRolSocio');
-});
+})->add(\logsMiddleware::class . ':LogOperacion');
 
 $app->group('/encuesta', function (RouteCollectorProxy $group) {
     $group->get('[/]', \EncuestaController::class . ':TraerTodos');

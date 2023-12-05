@@ -48,7 +48,6 @@ class Pedido{
         return $consulta->fetchObject('Pedido');
     }
 
-
     public static function tomarPedido($id, $tiempoPreparacion='', $estado)
     {
         $objAccesoDato = AccesoDatos::obtenerInstancia();
