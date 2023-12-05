@@ -12,6 +12,7 @@ class PedidoController extends Pedido implements IApiUsable
       $idMesa = $param['idMesa'];
       $idProducto = $param['idProducto'];
       $idUsuario = $param['idUsuario'];
+      $precio = $param['precio'];
 
       // El pedido se crea como PENDIENTE 
       $pedido = new Pedido();
@@ -22,6 +23,7 @@ class PedidoController extends Pedido implements IApiUsable
       $pedido->horaPedido = '0';
       $pedido->tiempoPreparacion = '0';
       $pedido->estado = "PENDIENTE";
+      $pedido->precio = $precio;
       $pedido->crearPedido();
 
       $payload = json_encode(array("mensaje" => "Pedido creado con exito"));

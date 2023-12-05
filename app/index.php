@@ -82,6 +82,10 @@ $app->group('/encuesta', function (RouteCollectorProxy $group) {
     $group->post('[/]', \EncuestaController::class . ':CargarUno');
 });
 
+$app->group('/logs', function (RouteCollectorProxy $group) {
+    $group->get('[/]', \UsuarioController::class . ':MostrarLogs');
+})->add(\permisosMiddleware::class . ':verificarRolSocio');
+
 $app->get('[/]', function (Request $request, Response $response) {    
     $payload = json_encode(array("mensaje" => "Slim Framework 4 PHP"));
     

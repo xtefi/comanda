@@ -46,7 +46,23 @@ class Mesa{
         $consulta->execute();
     }
 
-    public static function cerrarMesa($id)  // SOLO PARA ADMIN - ESTADO PAGANDO O CERRADA
+    public static function modificarEstado($estado, $id, $codigo)
+    {
+        $objAccesoDato = AccesoDatos::obtenerInstancia();
+        if($estado === "PAGANDO" && !empty($codigo)){
+            // $consulta = $objAccesoDatos->prepararConsulta("SELECT SUM(precio) as sum_total FROM pedidos WHERE codigo = :codigo");
+            // $consulta->bindValue(':codigo', $codigo, PDO::PARAM_STR);
+            // $total = $consulta->execute();
+            // echo "Total para el pedido: " . $total;
+        }
+        $query="UPDATE mesas SET estado = ? WHERE id = ?";
+        $consulta = $objAccesoDato->prepararConsulta($query);
+        $consulta->bindParam(1, $estado);
+        $consulta->bindParam(2, $id);
+        $consulta->execute();
+    }
+
+    public static function cerrarMesa($id)  // SOLO PARA ADMIN - ESTADO CERRADA
     {
         $objAccesoDato = AccesoDatos::obtenerInstancia();
         $query="UPDATE mesas SET estado = ?, idUsuario = null, codigo = '', nombreCliente = '' WHERE id = ?";
@@ -58,7 +74,7 @@ class Mesa{
 
     public static function generarCodigoUnico() {
         $codigoUnico = uniqid('', true);
-        $codigoUnico .= str_pad(mt_rand(0, 99999), 5, '0', STR_PAD_LEFT);
+        $codigoUnico = str_pad(mt_rand(0, 99999), 5, '0', STR_PAD_LEFT);
         $codigoUnico = substr($codigoUnico, 7, 5);
     
         return $codigoUnico;

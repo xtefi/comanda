@@ -1,5 +1,6 @@
 <?php
 require_once './models/Usuario.php';
+require_once './models/log.php';
 require_once './utils/AutentificadorJWT.php';
 require_once './interfaces/IApiUsable.php';
 
@@ -112,5 +113,25 @@ class UsuarioController extends Usuario implements IApiUsable
       $response->getBody()->write($payload);
       return $response
         ->withHeader('Content-Type', 'application/json');
+    }
+
+    public function MostrarLogs($request, $response, $args){
+      $parametros = $request->getQueryParams();
+      $filtro =  $parametros['filtro'];
+      $opcion =  $parametros['opcion'];
+      if(empty($opcion) && isset($filtro)){
+        $lista = Log::filtroLogsEmpleados($filtro, "");
+      }elseif(isset($filtro)){
+        $lista = Log::filtroLogsEmpleados($filtro, $opcion);
+      }
+      $payload = json_encode(array("Logs" => $lista));
+      $response->getBody()->write($payload);
+      return $response
+        ->withHeader('Content-Type', 'application/json');        
+    // a- Los días y horarios que se ingresaron al sistema.
+    // b- Cantidad de operaciones de todos por sector.
+    // c- Cantidad de operaciones de todos por sector, listada por cada empleado.
+    // d- Cantidad de operaciones de cada uno por separado.
+    // e- Posibilidad de dar de alta a nuevos, suspenderlos o borrarlos.
     }
 }

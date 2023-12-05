@@ -46,14 +46,12 @@ class MesaController extends Mesa implements IApiUsable
     public function ModificarUno($request, $response, $args)
     {
       $parametros = $request->getParsedBody();
-      $id = $parametros['id'];
-      $idUsuario = $parametros['idUsuario'];
-      $estado = $parametros['estado'];
-      $nombreCliente = $parametros['nombreCliente'];
+      $id = $args['id'];
+      $estado = strtoupper($parametros['estado']);
       $codigo = $parametros['codigo'];
 
-      if($estado !== "CERRADA"){
-        Mesa::modificarMesa($idUsuario, $estado, $nombreCliente, $id, $codigo);
+      if($estado === "COMIENDO" || $estado === "PAGANDO"){
+        Mesa::modificarEstado($estado, $id, $codigo);
         $payload = json_encode(array("mensaje" => "Mesa modificada con exito"));
       }else{
         $payload = json_encode(array("mensaje" => "ERROR, no se puede cambiar estado a CERRADA"));
@@ -71,7 +69,7 @@ class MesaController extends Mesa implements IApiUsable
       $id = $args['id'];
       $idUsuario = $parametros['idUsuario'];
       $estado = 'ESPERANDO';
-      $nombreCliente = $parametros['nombreCliente'];
+      $nombreCliente = strtoupper($parametros['nombreCliente']);
       $codigo = Mesa::generarCodigoUnico();
 
       //SE PUEDE CARGAR LA FOTO      

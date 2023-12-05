@@ -9,11 +9,12 @@ class Pedido{
     public $horaPedido;
     public $tiempoPreparacion;
     public $estado; // PENDIENTE - PREPARACION - LISTO - ENTREGADO - CANCELADO
+    public $precio;
 
     public function crearPedido()
     {
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
-        $query="INSERT INTO pedidos (codigo, idMesa, idProducto, idUsuario, horaPedido, tiempoPreparacion, estado) VALUES ('$this->codigo','$this->idMesa', '$this->idProducto', '$this->idUsuario', '$this->horaPedido', '$this->tiempoPreparacion', '$this->estado')";
+        $query="INSERT INTO pedidos (codigo, idMesa, idProducto, idUsuario, horaPedido, tiempoPreparacion, estado, precio) VALUES ('$this->codigo','$this->idMesa', '$this->idProducto', '$this->idUsuario', '$this->horaPedido', '$this->tiempoPreparacion', '$this->estado', '$this->precio')";
         $consulta = $objAccesoDatos->prepararConsulta($query);
         $consulta->execute();
 
@@ -48,7 +49,7 @@ class Pedido{
         return $consulta->fetchObject('Pedido');
     }
 
-    public static function tomarPedido($id, $tiempoPreparacion='', $estado)
+    public static function tomarPedido($id, $tiempoPreparacion, $estado)
     {
         $objAccesoDato = AccesoDatos::obtenerInstancia();
         $query;
